@@ -31,18 +31,18 @@ public class SeachEnemy : MonoBehaviour
 
         if (targets.Length == 0)
         {
-            yield return new WaitForSeconds(1);
-
-            StartCoroutine(Timer());
+            GetComponent<Animator>().SetTrigger("Winner");
         }
-
-        _target = targets[Random.Range(0, targets.Length)];
-
-        if (!_healthOfNPC.IsDead)
+        else
         {
-            yield return new WaitForSeconds(5);
+            _target = targets[Random.Range(0, targets.Length)];
 
-            StartCoroutine(Timer());
+            if (!_healthOfNPC.IsDead)
+            {
+                yield return new WaitForSeconds(5);
+
+                StartCoroutine(Timer());
+            }
         }
     }
 
@@ -57,7 +57,13 @@ public class SeachEnemy : MonoBehaviour
         {
             Vector3 targetPos = new Vector3(_target.transform.position.x, 5.0f, _target.transform.position.z);
             transform.LookAt(targetPos);
+            float height = _target.GetComponent<CapsuleCollider>().height + 4.1f;
 
+            Vector3 firePosition = new Vector3(_target.transform.position.x, height, _target.transform.position.z);
+
+            Vector3 randomeSph = Random.insideUnitSphere * 1.5f;
+
+            _gun.Body.transform.LookAt(firePosition + randomeSph);
             _gun.StartShoot();
         }
     }

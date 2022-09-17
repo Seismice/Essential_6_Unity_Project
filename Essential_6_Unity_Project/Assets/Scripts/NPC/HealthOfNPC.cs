@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class HealthOfNPC : MonoBehaviour
 {
@@ -53,7 +54,9 @@ public class HealthOfNPC : MonoBehaviour
             killer.Kills += 1;
             GetComponentInChildren<PlayerShooting>().Drop();
             GetComponent<Animator>().SetBool("Dead", true);
-            Destroy(_uIHealthBar.gameObject);
+            GetComponent<NavMeshAgent>().enabled = false;
+
+            _uIHealthBar.DisableSlider();
         }
     }
 }

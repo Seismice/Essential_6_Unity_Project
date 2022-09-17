@@ -91,9 +91,15 @@ public class PlayerShooting : MonoBehaviour
 
         if (Physics.Raycast(shootRay, out shootHit, range))
         {
-            if(shootHit.collider.GetComponentInParent<HealthOfNPC>())
+            if(shootHit.collider.GetComponentInParent<HealthOfNPC>() &&
+                shootHit.collider.GetComponent<HeadHelper>())
             {
-                shootHit.collider.GetComponentInParent<HealthOfNPC>().GetDamage(10, _healthOfNPC);
+                Debug.Log("HeadShot!");
+                shootHit.collider.GetComponentInParent<HealthOfNPC>().GetDamage(200, _healthOfNPC);
+            }
+            else if (shootHit.collider.GetComponentInParent<HealthOfNPC>())
+            {
+                shootHit.collider.GetComponentInParent<HealthOfNPC>().GetDamage(damagePerShot, _healthOfNPC);
             }
 
             else if (shootHit.collider.GetComponent<Rigidbody>())
